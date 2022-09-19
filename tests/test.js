@@ -17,20 +17,42 @@ describe('People', () => {
                 })
         })
         it('should create a people entry with valid input', (done) => {
-            done()
+            chai.request(app).post('/api/v1/people')
+                .send({ name: 'Susan', age: 20 })
+                .end((err, res) => {
+                    res.should.have.status(201)
+                    res.body.should.be.eql({ message: "A person entry was added" })
+                    done()
+                })
         })
 
     })
     describe('get /api/v1/people', () => {
         it('should return an array of person entries of length 1', (done) => {
-            done()
+            chai.request(app).get('/api/v1/people')
+                .end((err, res) => {
+                    res.should.have.status(200)
+                    res.body.should.have.length(1)
+                    done()
+                })
         })
     })
     describe('get /apl/v1/people/:id', () => {
         it('should return the entry corresponding to person[0]', (done) => {
+            chai.request(app).get('/api/v1/people/0')
+            .end((err, res) => {
+                res.should.have.status(200)
+                res.body.name.should.be.eql('Susan')
+            })
             done()
         })
+
         it('should return an error if the index is >= the length of the array', (done) => {
+            chai.request(app).get('/api/v1/people/4')
+            .end((err, res) => {
+                res.should.have.status(404)
+                res.body.should.be.eql({error: 'The person record was not found.'})
+            })
             done()
         })
     })
