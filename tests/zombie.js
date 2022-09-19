@@ -58,7 +58,7 @@ describe("Functional Tests with Zombie.js", function () {
     });
 
     it("should return an entry of index 1", function (done) {
-      browser.fill('index', 1).then(() => {
+      browser.fill("index", 1).then(() => {
         browser.pressButton("#getPerson", () => {
           setTimeout(function () {
             assert.include(browser.text("#result"), "Fred");
